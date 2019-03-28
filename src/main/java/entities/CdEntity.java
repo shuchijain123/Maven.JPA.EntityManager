@@ -8,22 +8,27 @@ import java.util.Set;
 import static javax.persistence.CascadeType.ALL;
 
 @Entity
-@Table(name = "CD", schema = "entitylab", catalog = "")
+@Table(name = "CD", schema = "entitylab")
 public class CdEntity {
-
+   @Id
+   @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name=  "id")
     private long id;
+    @Basic
+    @Column(name=  "description")
     private String description;
+    @Basic
+    @Column(name=  "price")
     private String price;
+    @Basic
+    @Column(name=  "title")
     private String title;
+    @Basic
+    @Column(name=  "year")
     private Integer year;
 
 
 
-    //@OneToMany()
-    @OneToMany(cascade = ALL, fetch = FetchType.EAGER) // {PERSIST, REMOVE, MERGE, ALL}, EAGER || LAZY
-    @JoinColumn(name = "cd_id")
-    private CdEntity cdEntity;
-    private Set<ArtistEntity> artists = new HashSet<ArtistEntity>();
 
     public CdEntity( String title,String description,  Integer year, String artist,String price,Set<ArtistEntity> artists) {
         this.id = id;
@@ -31,7 +36,8 @@ public class CdEntity {
         this.price = price;
         this.title = title;
         this.year = year;
-        this.artist = artist;
+        this.artist=artist;
+        this.artists = artists;
     }
 
     public CdEntity() {
@@ -40,6 +46,17 @@ public class CdEntity {
 
 
 
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JoinTable(name = "artist_cd",
+            joinColumns = @JoinColumn(name = "cd_id"),
+            inverseJoinColumns = @JoinColumn(name = "artist_id"))
+    private Set<ArtistEntity> artists = new HashSet<ArtistEntity>();
+
+
+    public Set<ArtistEntity> getArtists() {
+
+        return artists;
+    }
 
 
 
@@ -54,8 +71,6 @@ public class CdEntity {
     private String artist;
 
 
-    @Id
-    @Column(name = "id", nullable = false)
     public long getId() {
         return id;
     }
@@ -64,8 +79,6 @@ public class CdEntity {
         this.id = id;
     }
 
-    @Basic
-    @Column(name = "description", nullable = true, length = 3000)
     public String getDescription() {
         return description;
     }
@@ -74,8 +87,7 @@ public class CdEntity {
         this.description = description;
     }
 
-    @Basic
-    @Column(name = "price", nullable = true, length = 3000)
+
     public String getPrice() {
         return price;
     }
@@ -84,8 +96,7 @@ public class CdEntity {
         this.price = price;
     }
 
-    @Basic
-    @Column(name = "title", nullable = true, length = 100)
+
     public String getTitle() {
         return title;
     }
@@ -94,8 +105,7 @@ public class CdEntity {
         this.title = title;
     }
 
-    @Basic
-    @Column(name = "year", nullable = true)
+
     public Integer getYear() {
         return year;
     }
@@ -104,13 +114,25 @@ public class CdEntity {
         this.year = year;
     }
 
-    public Set<ArtistEntity> getArtists() {
-        return artists;
-    }
+
 
     public void setArtists(Set<ArtistEntity> artists) {
         this.artists = artists;
     }
+
+
+    public void addartist(ArtistEntity artist) {
+        Set<ArtistEntity> artists = new HashSet<ArtistEntity>();
+
+
+        artists.add(artist);
+         artist.getCds().add(this);
+
+
+
+    }
+
+
 
     @Override
     public boolean equals(Object o) {

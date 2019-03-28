@@ -2,18 +2,10 @@ package services;
 
 
 import entities.CdEntity;
-import entities.ArtistEntity;
-import entities.ArtistCdEntity;
-
-
-
 
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 public class CDService {
 
@@ -51,6 +43,12 @@ public class CDService {
 
         return cd;
     }
+
+
+
+
+
+
 
 
     public CdEntity createCD(CdEntity cd) {

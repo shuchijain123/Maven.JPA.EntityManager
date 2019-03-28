@@ -24,17 +24,54 @@ public class EntityApp {
         EntityTransaction tx = em.getTransaction();
 
         CDService service = new CDService(em);
+        ArtistService service2 = new ArtistService(em);
 
         Set<ArtistEntity> tcq = new HashSet<ArtistEntity>();
-        tcq.add(new ArtistEntity(1, "Tip","Top","Flute"));
-        tcq.add(new ArtistEntity(2,"Phife", "Dawg","Chelo"));
-        tcq.add(new ArtistEntity(3,"Shaheed", "Muhammad","Guitar"));
-        tcq.add(new ArtistEntity(4,"Jarobi", "White","violin"));
+        ArtistEntity  artist1 = new ArtistEntity( "Tip","Top","Flute",null);
+        ArtistEntity  artist2 =new ArtistEntity("Phife", "Dawg","Chelo",null);
+        ArtistEntity  artist3=new ArtistEntity("Shaheed", "Muhammad","Guitar",null);
+        ArtistEntity  artist4=new ArtistEntity("Jarobi", "White","violin",null);
+
+        tcq.add(artist1);
+        tcq.add(artist2);
 
 
-        CdEntity cd1 = service.createCD(new CdEntity("The Low End Theory", "Released: September 24, 1991",2001 ,"Hip Hop","200",tcq));
 
-       // CdEntity cd2 = service.createCD(new CdEntity("The High End Theory", "Released: October 12, 2001",1999 ,"Country","100"));
+        Set<CdEntity> mycds = new HashSet<CdEntity>();
+
+
+        CdEntity cd1 = new CdEntity("The Low End Theory", "Released: September 24, 1991",2001 ,"Hip Hop","200",null);
+        CdEntity cd2 = new CdEntity("The High End Theory", "Released: September 24, 1991",2003 ,"Hip Hop","200",null);
+        CdEntity cd3 = new CdEntity("The Urs End Theory", "Released: September 24, 1991",2004 ,"Hip Hop","200",null);
+
+   mycds.add(cd1);
+   mycds.add(cd2);
+   mycds.add(cd3);
+
+
+
+        //cd1.addartist(artist1);
+        //cd1.addartist(artist2);
+        //cd1.addartist(artist3);
+        //cd1.addartist(artist4);
+
+        cd1.setArtists(tcq);
+
+
+
+      //  em.persist(cd1);
+
+
+
+
+        service.createCD(cd1);
+
+
+
+
+
+
+        // CdEntity cd2 = service.createCD(new CdEntity("The High End Theory", "Released: October 12, 2001",1999 ,"Country","100"));
 
        // CdEntity cd = new CdEntity();
 
